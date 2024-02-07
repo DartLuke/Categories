@@ -4,10 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -19,11 +17,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -80,32 +77,28 @@ private fun CategoryItem(
         modifier = modifier.clickable(onClick = { onClickItem(categories.first) }),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.padding_large))
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
             Thumbnail(categories.second)
-            Spacer(modifier = Modifier.weight(1f))
-            Column(
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
-            ) {
-                Text(
-                    text = categories.first ?: "",
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Text(
-                    text = stringResource(R.string.distinct_products, categories.second.size),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = stringResource(
-                        R.string.in_stock,
-                        categories.second.sumOf { it.stock ?: 0 }),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
+            Text(
+                text = categories.first ?: "",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = stringResource(R.string.distinct_products, categories.second.size),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = stringResource(
+                    R.string.in_stock,
+                    categories.second.sumOf { it.stock ?: 0 }),
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
@@ -114,11 +107,10 @@ private fun CategoryItem(
 @Composable
 private fun Thumbnail(products: List<Product>, modifier: Modifier = Modifier) {
     if (products.isNotEmpty()) (GlideImage(
-        modifier = modifier.size(95.dp),
+        //modifier = modifier.height(95.dp),
         model = products.first().thumbnail,
-        contentDescription = "",
-        contentScale = ContentScale.FillBounds,
-        ))
+        contentDescription = ""
+    ))
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

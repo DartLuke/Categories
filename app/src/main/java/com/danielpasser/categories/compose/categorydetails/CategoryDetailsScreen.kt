@@ -3,7 +3,6 @@ package com.danielpasser.categories.compose.categorydetails
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,11 +21,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -86,33 +84,29 @@ private fun ProductItem(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.padding_large))
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
             ProductItemImage(product.images)
-            Spacer(modifier = Modifier.weight(1f))
-            Column(
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
-            ) {
-                Text(
-                    text = product.title ?: "",
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Text(
-                    text = stringResource(R.string.price, product.price ?: -1),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = stringResource(
-                        R.string.in_stock,
-                        product.stock ?: 0
-                    ),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
+            Text(
+                text = product.title ?: "",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = stringResource(R.string.price, product.price ?: -1),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = stringResource(
+                    R.string.in_stock,
+                    product.stock ?: 0
+                ),
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
@@ -120,13 +114,13 @@ private fun ProductItem(
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun ProductItemImage(images: List<String>, modifier: Modifier = Modifier) {
-    if (images.isNotEmpty()) (GlideImage(
-        modifier = modifier.size(95.dp),
-        model = images.first(),
-        contentDescription = "",
-        contentScale = ContentScale.FillBounds,
-
+    if (images.isNotEmpty()) {
+        (GlideImage(
+            modifier = modifier.size(95.dp),
+            model = images.first(),
+            contentDescription = "",
         ))
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
