@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Categories</string>
+    <string name="in_stock">%d in stock</string>
+    <string name="price">Price: %d</string>
+    <string name="distinct_products">%d distinct products</string>
+    <string name="back_button">Back</string>
+</resources>
