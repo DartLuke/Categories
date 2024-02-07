@@ -8,7 +8,6 @@ import com.danielpasser.categories.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductListViewModel @Inject constructor(private val repository: ProductRepository) :
     ViewModel() {
-    val productByCategory: StateFlow<Map<String?, List<Product>>> =
+    val categories: StateFlow<Map<String?, List<Product>>> =
         repository.getProductsDao().stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),

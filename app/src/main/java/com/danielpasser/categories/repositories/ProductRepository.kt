@@ -13,6 +13,9 @@ class ProductRepository @Inject constructor(
     private val productsService: ProductsService,
     private val productDao: ProductDao
 ) {
+    /**
+    app observe changes in db, and automatically update UI
+     */
     fun getProductsDao() = productDao.getAllProducts()
         .map {
             it.map(ProductWithImageList::asExternalModel).groupBy { products -> products.category }
@@ -22,9 +25,15 @@ class ProductRepository @Inject constructor(
         it.map(ProductWithImageList::asExternalModel)
     }
 
+    /**
+    app doesn't take data directly from server. Instead it saves data in database, and then takes data from DB.
+    Single source of truth rule.
+     */
     suspend fun getProductsFromServer() {
         val products = productsService.getProducts().products
         productDao.upsertAllProducts(products.map { it.asEntity() })
         productDao.upsertAllImages(products.flatMap { it.asImageEntityList() })
+
+
     }
 }

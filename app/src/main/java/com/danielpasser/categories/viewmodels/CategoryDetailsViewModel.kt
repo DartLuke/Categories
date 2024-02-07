@@ -17,6 +17,11 @@ class CategoryDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
+    /**
+    Google doesn't recommend to pass complicated data between navigation components in compose. Instead we should pass key and take data from repository,
+    database, network, etc. Official explanation is "Single source of truth" rule. A little bit strange. It wasn't a problem to pass parcable objects
+    between fragments. Other option is to pass JSON.
+     */
     val category: String = savedStateHandle.get<String>(CATEGORY) ?: ""
 
     val productByCategory: StateFlow<List<Product>> =

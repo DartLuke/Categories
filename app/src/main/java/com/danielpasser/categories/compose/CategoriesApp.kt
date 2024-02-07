@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.danielpasser.categories.compose.categorydetails.CategoryDetailsScreen
-import com.danielpasser.categories.compose.productlist.ProductListScreen
+import com.danielpasser.categories.compose.categorieslist.CategoriesListScreen
 
 @Composable
 fun CategoriesApp() {
@@ -18,7 +18,7 @@ fun CategoriesApp() {
 fun CategoriesNavController(navController: NavHostController) {
     NavHost(navController = navController, startDestination = ScreenNav.ProductsList.route) {
         composable(route = ScreenNav.ProductsList.route) {
-            ProductListScreen(onClickItem = {
+            CategoriesListScreen(onClickItem = {
                 navController.navigate(
                     ScreenNav.CategoryDetails.createRoute(
                         it

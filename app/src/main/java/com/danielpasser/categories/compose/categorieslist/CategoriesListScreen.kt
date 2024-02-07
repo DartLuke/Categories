@@ -1,4 +1,4 @@
-package com.danielpasser.categories.compose.productlist
+package com.danielpasser.categories.compose.categorieslist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,7 @@ import com.danielpasser.categories.models.Product
 import com.danielpasser.categories.viewmodels.ProductListViewModel
 
 @Composable
-fun ProductListScreen(
+fun CategoriesListScreen(
     modifier: Modifier = Modifier,
     onClickItem: (String?) -> Unit,
     viewModel: ProductListViewModel = hiltViewModel(),
@@ -41,7 +41,7 @@ fun ProductListScreen(
     Scaffold(modifier = modifier, topBar = {
         TopAppBar()
     }) { contentPadding ->
-        ProductList(
+        CategoriesList(
             modifier = Modifier.padding(
                 top = contentPadding.calculateTopPadding(),
                 start = dimensionResource(id = R.dimen.padding_small),
@@ -49,35 +49,35 @@ fun ProductListScreen(
                 bottom = dimensionResource(id = R.dimen.padding_small)
             ),
             onClickItem = onClickItem,
-            products = viewModel.productByCategory.collectAsState().value
+            categories = viewModel.categories.collectAsState().value
         )
     }
 }
 
 @Composable
-private fun ProductList(
+private fun CategoriesList(
     modifier: Modifier = Modifier,
     onClickItem: (String?) -> Unit,
-    products: Map<String?, List<Product>>
+    categories: Map<String?, List<Product>>
 ) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large))
     ) {
-        items(items = products.toList()) { product ->
-            ProductItem(product, onClickItem = onClickItem)
+        items(items = categories.toList()) { product ->
+            CategoryItem(product, onClickItem = onClickItem)
         }
     }
 }
 
 @Composable
-private fun ProductItem(
-    product: Pair<String?, List<Product>>,
+private fun CategoryItem(
+    categories: Pair<String?, List<Product>>,
     onClickItem: (String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.clickable(onClick = { onClickItem(product.first) }),
+        modifier = modifier.clickable(onClick = { onClickItem(categories.first) }),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -86,23 +86,23 @@ private fun ProductItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ProductItemThumbnail(product.second)
+            Thumbnail(categories.second)
             Spacer(modifier = Modifier.weight(1f))
             Column(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
             ) {
                 Text(
-                    text = product.first ?: "",
+                    text = categories.first ?: "",
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    text = stringResource(R.string.distinct_products, product.second.size),
+                    text = stringResource(R.string.distinct_products, categories.second.size),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = stringResource(
                         R.string.in_stock,
-                        product.second.sumOf { it.stock ?: 0 }),
+                        categories.second.sumOf { it.stock ?: 0 }),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -112,13 +112,12 @@ private fun ProductItem(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-private fun ProductItemThumbnail(product: List<Product>, modifier: Modifier = Modifier) {
-    if (product.isNotEmpty()) (GlideImage(
+private fun Thumbnail(products: List<Product>, modifier: Modifier = Modifier) {
+    if (products.isNotEmpty()) (GlideImage(
         modifier = modifier.size(95.dp),
-        model = product.first().thumbnail,
+        model = products.first().thumbnail,
         contentDescription = "",
         contentScale = ContentScale.FillBounds,
-
         ))
 }
 
