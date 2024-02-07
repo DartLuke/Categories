@@ -107,7 +107,7 @@ private fun CategoryItem(
 @Composable
 private fun Thumbnail(products: List<Product>, modifier: Modifier = Modifier) {
     if (products.isNotEmpty()) (GlideImage(
-        //modifier = modifier.height(95.dp),
+        modifier = modifier,
         model = products.first().thumbnail,
         contentDescription = ""
     ))

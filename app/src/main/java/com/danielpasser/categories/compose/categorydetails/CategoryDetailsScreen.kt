@@ -116,7 +116,7 @@ private fun ProductItem(
 private fun ProductItemImage(images: List<String>, modifier: Modifier = Modifier) {
     if (images.isNotEmpty()) {
         (GlideImage(
-            modifier = modifier.size(95.dp),
+            modifier = modifier,
             model = images.first(),
             contentDescription = "",
         ))
