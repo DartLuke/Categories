@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryDetailsViewModel @Inject constructor(
-    private val repository: ProductRepository,
+    repository: ProductRepository,
     savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
